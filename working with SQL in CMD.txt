@@ -1,0 +1,16 @@
+pip install csvkit
+mk dir csv_data
+cd csvdata
+curl -L -O https://raw.githubusercontent.com/SonalShuklaAB/Group_5_Project/main/completedcard.csv
+curl -L -O https://raw.githubusercontent.com/SonalShuklaAB/Group_5_Project/main/completedacct.csv
+curl -L -O https://raw.githubusercontent.com/SonalShuklaAB/Group_5_Project/main/completedclient.csv
+curl -L -O https://raw.githubusercontent.com/SonalShuklaAB/Group_5_Project/main/completeddisposition.csv
+curl -L -O https://raw.githubusercontent.com/SonalShuklaAB/Group_5_Project/main/completeddistrict.csv
+curl -L -O https://raw.githubusercontent.com/SonalShuklaAB/Group_5_Project/main/completedloan.csv
+curl -L -O https://raw.githubusercontent.com/SonalShuklaAB/Group_5_Project/main/completedorder.csv
+csvlook completedacct.csv
+csvstat completedacct.csv
+
+csvsql -I --query "SELECT year, count(*) as count from completedacct group by year order by count DESC" completedacct.csv
+
+csvsql -I --query "SELECT name AS column_name, type AS data_type, (SELECT COUNT(DISTINCT column_name) FROM completedacct) * 1.0 / (SELECT COUNT(*) FROM completedacct) AS uniqueness_ratio FROM pragma_table_info('completedacct')" completedacct.csv
